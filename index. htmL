@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>အမှတ်တရလေး | Memory MM</title>
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+  background: #fff0f5;
+  color: #633b50;
+  text-align: center;
+}
+.card {
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 22px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 4px 18px #e8c5d5;
+}
+h1 { color: #e56c9a; }
+input, textarea, select, button {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #edbfd1;
+  border-radius: 10px;
+  font-size: 16px;
+}
+button {
+  background: #e978a3;
+  color: white;
+  border: 0;
+  font-weight: bold;
+}
+#preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+#photo {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>💗 အမှတ်တရလေး 💗</h1>
+  <p>ကိုယ်ချစ်ရသူအတွက် အမှတ်တရလေး ဖန်တီးပါ</p>
+  <input id="title" placeholder="ခေါင်းစဉ်လေး ရေးပါ">
+  <input id="from" placeholder="ပေးပို့သူအမည်">
+  <input id="to" placeholder="လက်ခံသူအမည်">
+  <select id="design">
+    <option value="pink">ပန်းရောင် 💗</option>
+    <option value="lavender">ခရမ်းရောင် 💜</option>
+    <option value="cream">နို့နှစ်ရောင် 🤍</option>
+  </select>
+  <textarea id="letter" rows="5" placeholder="ကိုယ်ပြောချင်တဲ့စာလေး ရေးပါ"></textarea>
+  <label>ဓာတ်ပုံရွေးပါ</label>
+  <input id="image" type="file" accept="image/*">
+  <button onclick="makeMemory()">အမှတ်တရ ဖန်တီးမယ် ✨</button>
+</div>
+<div class="card" id="result" hidden>
+  <h2 id="previewTitle"></h2>
+  <img id="photo" hidden>
+  <p id="preview"></p>
+  <button onclick="saveMemory()">ဒီအမှတ်တရကို သိမ်းမယ်</button>
+</div>
+<script>
+function makeMemory() {
+  const title = document.getElementById('title').value.trim();
+  const from = document.getElementById('from').value.trim();
+  const to = document.getElementById('to').value.trim();
+  const letter = document.getElementById('letter').value.trim();
+  if (!title || !letter) {
+    alert('ခေါင်းစဉ်နဲ့ စာလေး အရင်ဖြည့်ပါနော်။');
+    return;
+  }
+  const colors = {
+    pink: '#fff0f5',
+    lavender: '#f0eaff',
+    cream: '#fff8e8'
+  };
+  document.body.style.background =
+    colors[document.getElementById('design').value];
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('preview').textContent =
+    'သို့ ' + (to || 'ချစ်ရသူ') + '\n\n' + letter +
+    '\n\nချစ်ခြင်းများဖြင့် ' + (from || 'ကိုယ်');
+  const file = document.getElementById('image').files[0];
+  const photo = document.getElementById('photo');
+  if (file) {
+    photo.src = URL.createObjectURL(file);
+    photo.hidden = false;
+  } else {
+    photo.hidden = true;
+    photo.removeAttribute('src');
+  }
+  document.getElementById('result').hidden = false;
+}
+function saveMemory() {
+  const content = document.documentElement.cloneNode(true);
+  content.querySelector('#result').hidden = false;
+  content.querySelector('#title').value =
+    document.getElementById('title').value;
+  content.querySelector('#from').value =
+    document.getElementById('from').value;
+  content.querySelector('#to').value =
+    document.getElementById('to').value;
+  content.querySelector('#letter').textContent =
+    document.getElementById('letter').value;
+  alert('ဒီနမူနာမှာ အွန်လိုင်း Link မထုတ်ပေးနိုင်သေးပါဘူး။');
+}
+</script>
+</body>
+</html>
